@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZSEIL-INFORMATYKA - Zadania</title>
+    <style>
+        /* Sekcja stylów CSS */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            text-align: left; 
+            /* Ustawienia Flexbox, aby stopka była zawsze na dole */
+            display: flex; 
+            flex-direction: column;
+        }
+
+        /* Styl dla nagłówka strony */
+        header {
+            background-color: #1f1f1f;
+            color: #4CAF50;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center; 
+        }
+
+        /* Styl dla sekcji głównej */
+        main {
+            padding: 40px 40px; 
+            max-width: 1000px; 
+            margin: 0 auto;
+            text-align: left;
+            flex-grow: 1; /* Sprawia, że main zajmuje całą dostępną przestrzeń */
+            width: 100%; /* Ważne, gdy main jest w kolumnie flex */
+            box-sizing: border-box;
+        }
+
+        /* --- STYL DLA STOPKI (NOWY) --- */
+        footer {
+            margin-top: auto; /* Wypycha stopkę na dół */
+            background-color: #1f1f1f;
+            color: #aaaaaa;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+        /* ---------------------------------- */
+
+
+        /* Style dla treści zadania (pozostałe style bez zmian) */
+        .task-title {
+            font-size: 1.2em;
+            color: #fff;
+            margin-bottom: 0; 
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .download-link {
+            font-size: 0.8em; 
+            color: #00bfff; 
+            font-weight: 600; 
+            font-style: italic; 
+            text-decoration: underline; 
+            margin-left: 15px; 
+            cursor: pointer; 
+            transition: color 0.2s;
+        }
+        
+        .download-link:hover {
+            color: #33ccff; 
+        }
+
+        .task-date {
+            font-size: 0.9em;
+            font-style: italic;
+            color: #aaa;
+            margin-top: 2px;
+        }
+
+        /* --- STYLE DLA MODALNEGO OKNA I KOMUNIKATÓW --- */
+        .modal-overlay, .fullscreen-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        #modal-timer {
+            font-size: 1.5em;
+            color: #ff3939;
+            margin: 10px 0 20px 0;
+        }
+
+        #code-input {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 15px;
+            border: 2px solid #4CAF50;
+            background-color: #000;
+            color: #fff;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        #submit-code {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .fullscreen-message p {
+            font-size: 3em;
+            color: #ff3939;
+            text-shadow: 0 0 10px #ff3939;
+            font-weight: bold;
+        }
+        
+        /* --- STYLE DLA RAMKI INFORMACYJNEJ --- */
+        #info-modal .modal-content {
+            max-width: 500px;
+            padding: 40px;
+            text-align: left;
+            background-color: #1f1f1f; 
+            border: 2px solid #4CAF50; 
+        }
+
+        #info-modal p {
+            margin: 10px 0;
+            line-height: 1.5;
+            font-size: 1.1em;
+        }
+
+        #info-modal strong {
+            display: block; 
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #39ff14; 
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        const CORRECT_CODE = "52020131";
+        const DOWNLOAD_URL = "ZSEIL - RVIII.42.zip"; 
+        const TIME_LIMIT_SECONDS = 30;
+        let timerInterval;
+
+        function showFullscreenMessage(message) {
+            const messageElement = document.getElementById('fullscreen-message');
+            const messageText = document.getElementById('message-text');
+            
+            messageText.textContent = message;
+            messageElement.style.display = 'flex';
+        }
+
+        function openCodeModal() {
+            const modal = document.getElementById('code-modal');
+            modal.style.display = 'flex';
+            
+            startTimer();
+            document.getElementById('code-input').focus();
+        }
+
+        function closeCodeModal() {
+            const modal = document.getElementById('code-modal');
+            modal.style.display = 'none';
+            clearInterval(timerInterval);
+        }
+
+        function showInfoModal() {
+            const modal = document.getElementById('info-modal');
+            modal.style.display = 'flex';
+        }
+
+        function startTimer() {
+            let remainingTime = TIME_LIMIT_SECONDS;
+            const timerDisplay = document.getElementById('modal-timer');
+            
+            timerDisplay.textContent = remainingTime;
+
+            timerInterval = setInterval(() => {
+                remainingTime--;
+                timerDisplay.textContent = remainingTime;
+
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    closeCodeModal();
+                    showFullscreenMessage("NIE WPISANO KODU");
+                }
+            }, 1000);
+        }
+
+        function submitCode() {
+            const userCode = document.getElementById('code-input').value;
+            
+            clearInterval(timerInterval);
+            closeCodeModal();
+
+            if (userCode === CORRECT_CODE) {
+                // 1. Uruchomienie pobierania
+                const link = document.createElement('a');
+                link.href = DOWNLOAD_URL;
+                link.download = "ZSEIL - RVIII.42.zip"; 
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // 2. WYŚWIETLENIE NOWEJ RAMKI INFORMACYJNEJ
+                showInfoModal(); 
+                
+            } else {
+                showFullscreenMessage("ZŁY KOD!");
+            }
+
+            document.getElementById('code-input').value = "";
+        }
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>ZSEIL-INFORMATYKA-zadania</h1>
+    </header>
+
+    <main>
+        <div class="task-entry">
+            <div class="task-title">
+                <span>Zadanie 1: R.VIII.42 - Język internetu</span>
+                
+                <a href="#" class="download-link" 
+                   onclick="openCodeModal(); return false;">
+                    pobierz
+                </a>
+            </div>
+            
+            <p class="task-date">13.10.2025</p>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 ZSEIL-INFORMATYKA | Wszelkie prawa zastrzeżone.
+    </footer>
+
+    <div id="code-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Wpisz kod, aby pobrać zadanie</h2>
+            <p id="modal-timer">30</p>
+            <input type="text" id="code-input" placeholder="Wprowadź kod...">
+            <button id="submit-code" onclick="submitCode()">POTWIERDŹ</button>
+        </div>
+    </div>
+    
+    <div id="fullscreen-message" class="fullscreen-message" onclick="this.style.display='none'">
+        <p id="message-text">KOMUNIKAT</p>
+    </div>
+
+    <div id="info-modal" class="modal-overlay" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2 style="color: #4CAF50; text-align: center;">Co musisz teraz zrobić?</h2>
+            <hr style="border-color: #4CAF50;">
+            <p>1. Rozpakuj pobrany folder **ZIP**,</p>
+            <p>2. Nazwij swoją pracę według wzoru na **Teams**, </p>
+            <p>3. Załącz pracę na **Teams** i wyślij.</p>
+            
+            <p><strong>Dziękujemy za skorzystanie z moich usług</strong></p>
+        </div>
+    </div>
+
+</body>
+</html>

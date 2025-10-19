@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZSEIL-INFORMATYKA - Zadania</title>
+    <style>
+        /* Sekcja stylów CSS */
+        :root {
+            /* Zmienna dla akcentującego (świecącego) koloru - neon zielony */
+            --neon-green: #39ff14; 
+        }
+
+        body {
+            /* Prawie czarny kolor tła (#121212) */
+            background-color: #121212;
+            /* Kolor tekstu: biały */
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        /* Styl dla nagłówka strony */
+        header {
+            background-color: #1f1f1f;
+            color: #4CAF50;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Styl dla głównej zawatości (przesunięty w górę) */
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; 
+            align-items: center; 
+            flex-grow: 1; 
+            padding: 40px;
+            margin-top: 50px; 
+        }
+
+        /* Styl dla głównego tekstu */
+        .main-text {
+            max-width: 600px;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        
+        /* Wyróżnienie nazwy IG */
+        .main-text span.ig-name {
+            color: var(--neon-green);
+            font-weight: bold;
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+
+        /* Styl dla stopki */
+        footer {
+            margin-top: auto;
+            background-color: #1f1f1f;
+            color: #aaaaaa;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+        /* --- STYL DLA ŚWIECĄCEGO LINKU (przycisk) --- */
+        .neon-button {
+            /* Zapewniamy, że link wygląda jak przycisk i ma te same style */
+            text-decoration: none; /* Usuwa podkreślenie linku */
+            display: inline-block; /* Pozwala na padding */
+
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            
+            background-color: var(--neon-green);
+            color: #000;
+            
+            box-shadow: 0 0 10px var(--neon-green),
+                        0 0 20px var(--neon-green),
+                        0 0 40px rgba(57, 255, 20, 0.5);
+            
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-button:hover {
+            background-color: #fff;
+            color: #121212;
+            box-shadow: 0 0 20px var(--neon-green),
+                        0 0 30px var(--neon-green),
+                        0 0 60px rgba(57, 255, 20, 0.7);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ZSEIL-INFORMATYKA</h1>
+    </header>
+
+    <main>
+        <div class="main-text">
+            <h2>Tutaj szybko zamówisz zadanie z informatyki.</h2>
+            <p>Wszystkie dostępne zadania znajdziesz pod przyciskiem niżej.</p>
+            <p>Aby zakupić zadanie, skontaktuj się z właścicielem zadań lub napisz na IG: <span class="ig-name">zakolak_123</span>.</p>
+            <p style="font-weight: bold; color: #ff3939;">Przyjmuję tylko płatność gotówką.</p>
+        </div>
+        
+        <a href="ZSEIL-INFORMATYKA-zadania.html" class="neon-button">
+            SPRAWDŹ ZADANIA
+        </a>
+    </main>
+
+    <footer>
+        &copy; 2025 ZSEIL-INFORMATYKA | Wszelkie prawa zastrzeżone.
+    </footer>
+
+</body>
+</html>
